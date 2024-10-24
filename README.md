@@ -6,11 +6,12 @@
    ```bash
    cd server
    ```
-2. Install the dependencies:
+2. Add `firebase-adminsdk.json` file
+3. Install the dependencies:
   ```bash
   npm install
   ```
-3. Start the development server:
+4. Start the development server:
   ```bash
   npm run dev
   ```
