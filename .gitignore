@@ -30,4 +30,5 @@
 # Игнорирование билдов
 **/dist/
 **/build/
-**/out/
+**/server/firebase-adminsdk.json
+

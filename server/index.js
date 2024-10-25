@@ -10,10 +10,14 @@ const router = express.Router();
 app.use(cors());
 const PORT = 5000;
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: "gs://superhero-cards.appspot.com",
-});
+if (process.env.NODE_ENV !== "test") {
+  const serviceAccount = require("./firebase-adminsdk.json");
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "gs://superhero-cards.appspot.com",
+  });
+}
 
 const db = admin.firestore();
 let bucket = admin.storage().bucket();
@@ -51,16 +55,6 @@ router.post("/cards", upload.array("images", 10), async (req, res) => {
       real_name,
       superpowers,
     } = req.body;
-
-    // if (
-    //   !nickname ||
-    //   !catch_phrase ||
-    //   !origin_description ||
-    //   !real_name ||
-    //   !superpowers
-    // ) {
-    //   return res.status(400).send("Missing required fields.");
-    // }
 
     const files = req.files;
 
@@ -205,6 +199,8 @@ app.delete("/cards/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = server;
